@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Tank.h"
+#include "Engine/World.h"
 #include "Image.h"
 #include "Widget.h"
 #include "UserWidget.h"
@@ -23,6 +24,9 @@ public:
 	void BeginPlay() override;
 
 	void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000.f;
 	
 private:
 	ATank* GetControlledTank() const;
@@ -35,5 +39,13 @@ private:
 
 	void AimAtCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation);
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const;
+
+	bool GetLookVectorHitLocation(FVector& OutHitLocation, FVector LookDirection) const;
+
+	FVector GetLineTraceStart() const;
+
+	FVector GetLineTraceEnd(FVector LookDirection) const;
 
 };

@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Engine/World.h"
 #include "TankPlayerController.h"
+#include "Engine/World.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	GetControlledTank();
+	// GetControlledTank();
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -52,7 +52,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation)
 		// Line trace along LookDirection and see if anything is hit
 
 		if (GetLookVectorHitLocation(OUT OutHitLocation, LookDirection)) {
-			UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *OutHitLocation.ToString());
+			GetControlledTank()->AimAt(OutHitLocation);
 			return true;
 		}
 	}

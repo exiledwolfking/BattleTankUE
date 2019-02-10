@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "TankAimingComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
-#include "TankAimingComponent.h"
+#include "TankBarrelComponent.h"
 
 
 // Sets default values for this component's properties
@@ -27,7 +27,7 @@ void UTankAimingComponent::BeginPlay()
 }
 
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrelComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -48,13 +48,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		return;
 	}
 
-	FVector BarrelLocation = Barrel->GetComponentLocation();
-
-
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
-	
 	bool foundSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		OUT OutLaunchVelocity,
@@ -69,12 +65,23 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
 
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at N/A"));
 	}
 
 
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+
+	// difference between current barrel directions and aim direction
+	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	FRotator AimRotator = AimDirection.Rotation();
+	FRotator Difference = AimRotator - BarrelRotation;
+
+	Barrel->Elevate(5);
 }
 
 

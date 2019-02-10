@@ -68,7 +68,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrelTowards(AimDirection);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at N/A"));
+		UE_LOG(LogTemp, Warning, TEXT("%s No Aim found"));
 	}
 
 
@@ -81,7 +81,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	FRotator AimRotator = AimDirection.Rotation();
 	FRotator Difference = AimRotator - BarrelRotation;
 
-	Barrel->Elevate(5);
+	Barrel->Elevate(Difference.Pitch);
 }
 
 

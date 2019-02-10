@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankPlayerController.h"
+#include "Tank.h"
 #include "Engine/World.h"
+#include "TankPlayerController.h"
+
 
 void ATankPlayerController::BeginPlay()
 {
@@ -34,6 +36,7 @@ void ATankPlayerController::AimAtCrosshair()
 	if (GetSightRayHitLocation(OUT HitLocation)) {
 		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		// tell controlled tank to aim at this point
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 
@@ -52,7 +55,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation)
 		// Line trace along LookDirection and see if anything is hit
 
 		if (GetLookVectorHitLocation(OUT OutHitLocation, LookDirection)) {
-			GetControlledTank()->AimAt(OutHitLocation);
 			return true;
 		}
 	}
@@ -83,8 +85,8 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector& OutHitLocation, FV
 }
 
 FVector ATankPlayerController::GetLineTraceStart() const {
-	// return PlayerCameraManager->GetCameraLocation();
-	return GetControlledTank()->GetTargetLocation() + FVector(300.f, 0, 170.f);
+	return PlayerCameraManager->GetCameraLocation();
+	// return GetControlledTank()->GetTargetLocation() + FVector(300.f, 0, 170.f);
 }
 
 FVector ATankPlayerController::GetLineTraceEnd(FVector LookDirection) const {

@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Tank.h"
 #include "Engine/World.h"
 #include "Image.h"
 #include "Widget.h"
@@ -11,6 +10,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+class ATank;
 
 /**
  * 
@@ -35,7 +35,7 @@ private:
 	float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere)
-	float CrossHairYLocation = 0.33333;
+	float CrossHairYLocation = 0.25223;
 
 	void AimAtCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation);

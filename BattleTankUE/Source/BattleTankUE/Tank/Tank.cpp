@@ -1,12 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankAimingComponent.h"
 #include "Tank.h"
-
+#include "TankAimingComponent.h"
+#include "TankTurretComponent.h"
 
 void ATank::SetBarrelReference(UTankBarrelComponent* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+void ATank::SetTurretReference(UTankTurretComponent* TurretToSet) {
+	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
 // Sets default values

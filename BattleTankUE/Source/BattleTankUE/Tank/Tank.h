@@ -8,6 +8,7 @@
 
 class UTankBarrelComponent;
 class UTankAimingComponent;
+class UTankTurretComponent;
 
 UCLASS()
 class BATTLETANKUE_API ATank : public APawn
@@ -20,6 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrelComponent* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurretComponent* TurretToSet);
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
@@ -28,7 +32,7 @@ private:
 	ATank();
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent*) override;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

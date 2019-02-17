@@ -4,6 +4,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrelComponent.h"
+#include "TankTurretComponent.h"
 
 
 // Sets default values for this component's properties
@@ -29,7 +30,17 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrelComponent* BarrelToSet)
 {
+	if (!BarrelToSet) {
+		return;
+	}
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurretComponent* TurretToSet) {
+	if (!TurretToSet) {
+		return;
+	}
+	Turret = TurretToSet;
 }
 
 // Called every frame
@@ -44,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	FString OurTankName = GetOwner()->GetName();
 
-	if (!Barrel) {
+	if (!Barrel || !Turret) {
 		return;
 	}
 
@@ -66,6 +77,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
+		MoveTurretTowards(AimDirection);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("%s No Aim found"));
@@ -84,5 +96,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	Barrel->Elevate(Difference.Pitch);
 }
 
+void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
+	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
+	FRotator AimRotator = AimDirection.Rotation();
+	FRotator Difference = AimRotator - TurretRotation;
+
+	Turret->Rotate(Difference.Yaw);
+}
 
 

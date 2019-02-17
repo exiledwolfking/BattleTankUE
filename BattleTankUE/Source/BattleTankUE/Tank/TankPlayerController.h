@@ -35,7 +35,8 @@ private:
 	float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere)
-	float CrossHairYLocation = 0.25223;
+	// float CrossHairYLocation = 0.25223;
+	float CrossHairYLocation = 0.18;
 
 	void AimAtCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation);

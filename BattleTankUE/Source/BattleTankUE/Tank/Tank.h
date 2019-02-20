@@ -9,6 +9,7 @@
 class UTankBarrelComponent;
 class UTankAimingComponent;
 class UTankTurretComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANKUE_API ATank : public APawn
@@ -44,6 +45,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000;
 
-	
-	
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UTankBarrelComponent* Barrel = nullptr;
 };

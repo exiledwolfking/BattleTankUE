@@ -26,7 +26,7 @@ public:
 	void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000.f;
+	float LineTraceRange = 1000000;
 	
 private:
 	ATank* GetControlledTank() const;
@@ -36,7 +36,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	// float CrossHairYLocation = 0.25223;
-	float CrossHairYLocation = 0.18;
+	float CrossHairYLocation = 0.25;
 
 	void AimAtCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation);

@@ -45,4 +45,5 @@ void ATankAIController::Tick(float DeltaTime)
 	GetControlledTank()->AimAt(aim);
 	// GetControlledTank()->Fire();
 	
+	MoveToActor(GetPlayerTank(), AcceptanceRadius);
 }

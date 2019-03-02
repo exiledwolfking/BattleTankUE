@@ -19,6 +19,11 @@ class BATTLETANKUE_API ATankAIController : public AAIController
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+	// How close the AI can get to the player
+	UPROPERTY(EditDefaultsOnly)
+	float AcceptanceRadius = 1000;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

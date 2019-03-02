@@ -98,9 +98,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
 	FRotator AimRotator = AimDirection.Rotation();
-	FRotator Difference = AimRotator - TurretRotation;
+	float DifferenceYaw = AimRotator.Yaw - TurretRotation.Yaw;
 
-	Turret->Rotate(Difference.Yaw);
+	if (abs(DifferenceYaw) > 180) {
+		Turret->Rotate(-DifferenceYaw);
+	} else {
+		Turret->Rotate(DifferenceYaw);
+	}
 }
 
 

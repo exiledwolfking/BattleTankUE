@@ -18,7 +18,6 @@ class BATTLETANKUE_API UTankTrackComponent : public UStaticMeshComponent
 public:
 
 	// sets throttle -1, 1
-	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetThrottle(float Throttle);
 	
 	// max force per track, in newtons

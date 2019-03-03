@@ -29,11 +29,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialize(UTankTrackComponent* LeftTrackToSet, UTankTrackComponent* RightTrackToSet);
-
-	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 	
 private:
 	UTankTrackComponent* LeftTrack = nullptr;
 	UTankTrackComponent* RightTrack = nullptr;
 
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 };

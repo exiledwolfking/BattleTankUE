@@ -28,8 +28,11 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 	
-private:
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;

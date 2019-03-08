@@ -3,8 +3,7 @@
 #include "TankAIController.h"
 #include "Tank.h"
 #include "Engine/World.h"
-
-
+// Depends on movement component via pathfinding system
 
 void ATankAIController::BeginPlay() {
 	//UE_LOG(LogTemp, Warning, TEXT("AI Controller Tank  Reporting for duty: %s"), *GetControlledTank()->GetName());
@@ -12,7 +11,7 @@ void ATankAIController::BeginPlay() {
 
 	SetActorTickEnabled(true);
 	ATank* playerTank = GetPlayerTank();
-	if (playerTank) {
+	if (ensure(playerTank)) {
 		UE_LOG(LogTemp, Warning, TEXT("Player Found by AI: %s"), *playerTank->GetName());
 	}
 	else {
@@ -28,7 +27,7 @@ ATank* ATankAIController::GetControlledTank() const
 ATank* ATankAIController::GetPlayerTank() const
 {
 	APlayerController* playerController = GetWorld()->GetFirstPlayerController();
-	if (!playerController) {
+	if (!ensure(playerController)) {
 		return nullptr;
 	}
 
@@ -38,7 +37,7 @@ ATank* ATankAIController::GetPlayerTank() const
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!GetControlledTank() || !GetPlayerTank()) {
+	if (!ensure(GetControlledTank() && GetPlayerTank())) {
 		return;
 	}
 	FVector aim = GetPlayerTank()->GetActorLocation();

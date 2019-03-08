@@ -3,8 +3,6 @@
 #include "Tank.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
-#include "TankTurretComponent.h"
 #include "TankBarrelComponent.h"
 #include "Engine/World.h"
 
@@ -15,11 +13,12 @@ void ATank::SetBarrelReference(UTankBarrelComponent* BarrelToSet)
 
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) { return; }
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
 	UE_LOG(LogTemp, Warning, TEXT("%s Firing"), *GetName());
 
-	if (Barrel && IsReloaded) {
+	if (IsReloaded) {
 
 		// spawn a projectile at the socket location on the barrel
 		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -48,6 +47,6 @@ void ATank::BeginPlay() {
 }
 
 void ATank::AimAt(FVector HitLocation) {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }

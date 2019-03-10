@@ -4,6 +4,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrelComponent.h"
+#include "Projectile.h"
+#include "Engine/World.h"
 #include "TankTurretComponent.h"
 
 
@@ -97,4 +99,22 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 	}
 }
 
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
+	UE_LOG(LogTemp, Warning, TEXT("%s Firing"), *GetName());
+
+	if (IsReloaded) {
+
+		// spawn a projectile at the socket location on the barrel
+		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
+	}
+}

@@ -14,6 +14,7 @@ enum class EFiringStatus : uint8 {
 	Locked
 };
 
+class AProjectile;
 class UTankBarrelComponent;
 class UTankTurretComponent;
 
@@ -34,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialize(UTankBarrelComponent* BarrelToSet, UTankTurretComponent* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	void Fire();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -42,6 +46,10 @@ protected:
 	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 private:	
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
 	UPROPERTY(EditDefaultsOnly)
 	UTankBarrelComponent* Barrel = nullptr;
 
@@ -50,6 +58,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
 
 	void MoveBarrelTowards(FVector);
 	void MoveTurretTowards(FVector);

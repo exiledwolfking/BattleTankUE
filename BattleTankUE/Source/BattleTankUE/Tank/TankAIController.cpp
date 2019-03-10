@@ -2,7 +2,6 @@
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include "Engine/World.h"
 // Depends on movement component via pathfinding system
 

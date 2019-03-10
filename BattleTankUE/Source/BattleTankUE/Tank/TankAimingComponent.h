@@ -43,7 +43,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadonly)
-	EFiringStatus FiringStatus = EFiringStatus::Locked;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 private:	
 
@@ -66,5 +66,8 @@ private:
 
 	void MoveBarrelTowards(FVector);
 	void MoveTurretTowards(FVector);
+	bool IsBarrelMoving();
+
+	FVector AimDirection;
 	
 };

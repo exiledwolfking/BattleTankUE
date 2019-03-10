@@ -25,8 +25,7 @@ void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	LastFireTime = FPlatformTime::Seconds();
 }
 
 
@@ -35,7 +34,15 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (FPlatformTime::Seconds() - LastFireTime < ReloadTimeInSeconds) {
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if(IsBarrelMoving()) {
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	else {
+		FiringStatus = EFiringStatus::Locked;
+	}
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -58,7 +65,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 
 	if (foundSolution) {
-		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 
 		MoveBarrelTowards(AimDirection);
 		MoveTurretTowards(AimDirection);
@@ -66,8 +73,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	else {
 		// No Aim Found
 	}
-
-
 }
 
 void UTankAimingComponent::Initialize(UTankBarrelComponent * BarrelToSet, UTankTurretComponent * TurretToSet)
@@ -86,6 +91,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	Barrel->Elevate(Difference.Pitch);
 }
 
+bool UTankAimingComponent::IsBarrelMoving() {
+	if (!ensure(Barrel)) { return false; }
+	return !Barrel->GetForwardVector().Equals(AimDirection, .01);
+}
+
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 	if (!ensure(Turret)) { return;  }
 	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
@@ -101,13 +111,8 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection) {
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
-	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	UE_LOG(LogTemp, Warning, TEXT("%s Firing"), *GetName());
-
-	if (IsReloaded) {
-
+	if (FiringStatus != EFiringStatus::Reloading) {
+		if (!ensure(Barrel && ProjectileBlueprint)) { return; }
 		// spawn a projectile at the socket location on the barrel
 		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
 		FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));

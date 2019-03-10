@@ -7,7 +7,6 @@
 #include "Tank.generated.h"
 
 class UTankBarrelComponent;
-class UTankAimingComponent;
 class UTankTurretComponent;
 class AProjectile;
 
@@ -25,10 +24,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 	void Fire();
 
-
-protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
 	virtual void BeginPlay() override;

@@ -2,7 +2,6 @@
 
 #include "Tank.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h"
 #include "TankBarrelComponent.h"
 #include "Engine/World.h"
 
@@ -38,16 +37,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("DONKEY: %s constructor"), *TankName);
-
-	// TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
 void ATank::BeginPlay() {
 	Super::BeginPlay(); // needed for BP begin play to run
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-}
-
-void ATank::AimAt(FVector HitLocation) {
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }

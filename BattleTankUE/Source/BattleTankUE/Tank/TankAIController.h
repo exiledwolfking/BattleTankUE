@@ -8,6 +8,7 @@
 #include "TankAIController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 /**
  * 
  */
@@ -27,12 +28,9 @@ class BATTLETANKUE_API ATankAIController : public AAIController
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UTankAimingComponent* AimingComponent = nullptr;
 	
 private:
-	ATank* GetControlledTank() const;
-
-	ATank* GetPlayerTank() const;
-
-
-	
+	APawn* GetPlayerTank() const;
 };

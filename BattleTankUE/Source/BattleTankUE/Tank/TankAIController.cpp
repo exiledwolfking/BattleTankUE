@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 #include "Engine/World.h"
 // Depends on movement component via pathfinding system
@@ -10,39 +11,33 @@ void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 
 	SetActorTickEnabled(true);
-	ATank* playerTank = GetPlayerTank();
-	if (ensure(playerTank)) {
-		UE_LOG(LogTemp, Warning, TEXT("Player Found by AI: %s"), *playerTank->GetName());
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Player NOT FOUND by: %s"), *GetControlledTank()->GetName());
-	}
+
+	UTankAimingComponent* AimingComponentToSet = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponentToSet)) { return; }
+	AimingComponent = AimingComponentToSet;
 }
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
+APawn* ATankAIController::GetPlayerTank() const
 {
 	APlayerController* playerController = GetWorld()->GetFirstPlayerController();
 	if (!ensure(playerController)) {
 		return nullptr;
 	}
 
-	return Cast<ATank>(playerController->GetPawn());
+	return playerController->GetPawn();
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!ensure(GetControlledTank() && GetPlayerTank())) {
-		return;
-	}
+
+	APawn* ControlledTank = GetPawn();
+	if (!ensure(GetPlayerTank() && ControlledTank)) { return; }
 	FVector aim = GetPlayerTank()->GetActorLocation();
-	GetControlledTank()->AimAt(aim);
-	// GetControlledTank()->Fire();
+	AimingComponent->AimAt(aim);
+
+	// TODO fix firing
+	// ControlledTank->Fire();
 	
 	MoveToActor(GetPlayerTank(), AcceptanceRadius);
 }

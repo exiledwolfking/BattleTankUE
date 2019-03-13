@@ -13,8 +13,15 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class BATTLETANKUE_API UTankTrackComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-	
+
+	UTankTrackComponent();
+
+	virtual void BeginPlay() override;
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 public:
 
 	// sets throttle -1, 1
@@ -23,5 +30,5 @@ public:
 	// max force per track, in newtons
 	// 40,000 = 40,000 kg * 10m/ss acceleration
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 800000;
+	float TrackMaxDrivingForce = 40000000.0;
 };

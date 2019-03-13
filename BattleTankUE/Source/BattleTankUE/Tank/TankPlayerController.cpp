@@ -7,6 +7,7 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!GetPawn()) { return; }
 	UTankAimingComponent* AimingComponentToSet = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponentToSet)) { return; }
 	FoundAimingComponent(AimingComponentToSet);

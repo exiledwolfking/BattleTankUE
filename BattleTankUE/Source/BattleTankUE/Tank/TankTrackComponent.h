@@ -16,9 +16,11 @@ class BATTLETANKUE_API UTankTrackComponent : public UStaticMeshComponent
 
 	UTankTrackComponent();
 
+	float CurrentThrottle = 0;
+
 	virtual void BeginPlay() override;
 
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ApplySidewaysForce();
 
 	UFUNCTION(BlueprintCallable)
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
@@ -26,6 +28,8 @@ public:
 
 	// sets throttle -1, 1
 	void SetThrottle(float Throttle);
+
+	void DriveTrack();
 	
 	// max force per track, in newtons
 	// 40,000 = 40,000 kg * 10m/ss acceleration

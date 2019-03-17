@@ -11,7 +11,8 @@ UENUM()
 enum class EFiringStatus : uint8 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	Empty
 };
 
 class AProjectile;
@@ -38,12 +39,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 	void Fire();
 
+	EFiringStatus GetFiringStatus() const;
+
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	int GetAmmoCount() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadonly)
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	int AmmoCount = 5;
 
 private:	
 

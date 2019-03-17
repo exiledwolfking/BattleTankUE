@@ -19,17 +19,17 @@ class BATTLETANKUE_API ATankAIController : public AAIController
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	APawn* GetPlayerTank() const;
 
-	// How close the AI can get to the player
-	UPROPERTY(EditDefaultsOnly)
-	float AcceptanceRadius = 1000;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UTankAimingComponent* AimingComponent = nullptr;
+
+	// How close the AI can get to the player
+	UPROPERTY(EditDefaultsOnly)
+	float AcceptanceRadius = 5000;
 	
-private:
-	APawn* GetPlayerTank() const;
 };

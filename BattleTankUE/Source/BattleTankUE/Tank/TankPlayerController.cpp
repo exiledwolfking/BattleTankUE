@@ -28,7 +28,8 @@ void ATankPlayerController::AimAtCrosshair()
 	FVector HitLocation; // out parameter
 
 	// get world location of linetrace through crosshair
-	if (GetSightRayHitLocation(OUT HitLocation)) {
+	bool bGotHitLocation = GetSightRayHitLocation(OUT HitLocation);
+	if (bGotHitLocation) {
 		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		// tell controlled tank to aim at this point
 		AimingComponent->AimAt(HitLocation);
@@ -49,9 +50,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation)
 	if (GetLookDirection(CrossHairLocation, LookDirection)) {
 		// Line trace along LookDirection and see if anything is hit
 
-		if (GetLookVectorHitLocation(OUT OutHitLocation, LookDirection)) {
-			return true;
-		}
+		return GetLookVectorHitLocation(OUT OutHitLocation, LookDirection);
 	}
 
 	return false;

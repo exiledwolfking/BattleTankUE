@@ -42,7 +42,7 @@ public:
 	EFiringStatus GetFiringStatus() const;
 
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
-	int GetAmmoCount() const;
+	int32 GetAmmoCount() const;
 
 protected:
 	// Called when the game starts
@@ -52,7 +52,7 @@ protected:
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	int AmmoCount = 5;
+	int32 AmmoCount = 5;
 
 private:	
 

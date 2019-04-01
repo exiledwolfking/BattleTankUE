@@ -14,9 +14,14 @@ class BATTLETANKUE_API AProjectile : public AActor
 {
 	GENERATED_BODY()
 	
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
+
+	void LaunchProjectile(float Speed);
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,12 +35,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* LaunchBlast = nullptr;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	void LaunchProjectile(float Speed);
-
-	
-	
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystemComponent* ImpactBlast = nullptr;
 };

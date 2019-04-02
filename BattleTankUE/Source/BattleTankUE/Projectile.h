@@ -18,6 +18,8 @@ class BATTLETANKUE_API AProjectile : public AActor
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	void DestroyProjectile();
+
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
@@ -41,4 +43,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	URadialForceComponent* ExplosionForce = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Destruction")
+	float DestroyDelay = 3.0f;
 };

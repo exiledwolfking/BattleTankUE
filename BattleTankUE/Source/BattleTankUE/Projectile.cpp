@@ -2,6 +2,7 @@
 
 #include "Projectile.h"
 #include "Particles/ParticleSystem.h"
+#include "Engine/World.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -46,4 +47,13 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	FTimerHandle timerHandle = FTimerHandle();
+	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &AProjectile::DestroyProjectile, DestroyDelay);
+}
+
+void AProjectile::DestroyProjectile() {
+	this->Destroy();
 }

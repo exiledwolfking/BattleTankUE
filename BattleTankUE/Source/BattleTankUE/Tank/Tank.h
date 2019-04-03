@@ -25,4 +25,7 @@ public:
 		struct FDamageEvent const & DamageEvent,
 		class AController * EventInstigator,
 		AActor * DamageCauser) override;
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
 };

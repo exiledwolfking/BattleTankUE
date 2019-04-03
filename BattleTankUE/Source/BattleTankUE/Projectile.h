@@ -20,6 +20,9 @@ class BATTLETANKUE_API AProjectile : public AActor
 
 	void DestroyProjectile();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 10;
+
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();

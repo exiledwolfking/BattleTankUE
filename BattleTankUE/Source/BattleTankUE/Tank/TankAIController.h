@@ -21,6 +21,10 @@ class BATTLETANKUE_API ATankAIController : public AAIController
 
 	APawn* GetPlayerTank() const;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 
 protected:
 	// Called when the game starts or when spawned

@@ -15,11 +15,12 @@ class BATTLETANKUE_API ATank : public APawn
 
 	ATank();
 
-	UPROPERTY(EditAnywhere, Category = "Health")
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health")
 	int32 StartingHealth = 100;
 
-	UPROPERTY(VisibleAnywhere, Category = "Health")
-	int32 CurrentHealth = StartingHealth;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Health")
+	int32 CurrentHealth;
 
 	// virtual void BeginPlay() override;
 
@@ -30,8 +31,8 @@ public:
 		class AController * EventInstigator,
 		AActor * DamageCauser) override;
 
-	UFUNCTION(BlueprintPure, Category = "Health")
-	float GetHealthPercent() const;
+	//UFUNCTION(BlueprintCallable, Category = "Health")
+	//float GetHealthPercent() const;
 
 	FTankDelegate OnDeath;
 };

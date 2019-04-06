@@ -21,8 +21,7 @@ void ATankAIController::SetPawn(APawn* InPawn) {
 	Super::SetPawn(InPawn);
 	if (InPawn) {
 		ATank* PossessedTank = Cast<ATank>(InPawn);
-		if (!ensure(PossessedTank)) { 
-			UE_LOG(LogTemp, Warning, TEXT("Cannot find PossessedAITank: %s"), *GetName());
+		if (!PossessedTank) { 
 			return;
 		}
 		
@@ -55,7 +54,7 @@ void ATankAIController::Tick(float DeltaTime)
 	AimingComponent->AimAt(aim);
 
 	if (AimingComponent->GetFiringStatus() == EFiringStatus::Locked) {
-		//AimingComponent->Fire();
+		AimingComponent->Fire();
 	}
 
 	

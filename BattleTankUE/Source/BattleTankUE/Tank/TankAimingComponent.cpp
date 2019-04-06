@@ -84,11 +84,11 @@ void UTankAimingComponent::Initialize(UTankBarrelComponent * BarrelToSet, UTankT
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection) {
 	if (!ensure(Barrel)) { return; }
 	// difference between current barrel directions and aim direction
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
-	FRotator AimRotator = AimDirection.Rotation();
+	FRotator AimRotator = TargetAimDirection.Rotation();
 	FRotator Difference = AimRotator - BarrelRotation;
 
 	Barrel->Elevate(Difference.Pitch);

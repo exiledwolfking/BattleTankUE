@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SprungWheel.h"
+#include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -15,22 +16,20 @@ ASprungWheel::ASprungWheel()
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
 	Wheel->AttachToComponent(Constraint, FAttachmentTransformRules::KeepRelativeTransform);
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	Mass->AttachToComponent(Constraint, FAttachmentTransformRules::KeepRelativeTransform);
+}
 
+void ASprungWheel::SetupConstraint() {
+	if (!GetAttachParentActor()) { return; }
+	UPrimitiveComponent* primitiveTank = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+	if (!primitiveTank) { return; }
+	Constraint->SetConstrainedComponents(primitiveTank, NAME_None, Wheel, NAME_None);
 }
 
 // Called when the game starts or when spawned
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GetAttachParentActor()) {
-		UE_LOG(LogTemp, Warning, TEXT("NOT NULL: %s"), *GetAttachParentActor()->GetName());
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("NULL"));
-	}
-	
+	SetupConstraint();
 }
 
 // Called every frame

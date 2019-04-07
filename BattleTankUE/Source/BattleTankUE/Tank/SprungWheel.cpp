@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Components/StaticMeshComponent.h"
 #include "SprungWheel.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
@@ -9,14 +9,14 @@ ASprungWheel::ASprungWheel()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	SetRootComponent(Mass);
+	Constraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Constraint"));
+	SetRootComponent(Constraint);
 
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->AttachToComponent(Mass, FAttachmentTransformRules::KeepRelativeTransform);
+	Wheel->AttachToComponent(Constraint, FAttachmentTransformRules::KeepRelativeTransform);
 
-	Constraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Constraint"));
-	Constraint->AttachToComponent(Mass, FAttachmentTransformRules::KeepRelativeTransform);
+	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
+	Mass->AttachToComponent(Constraint, FAttachmentTransformRules::KeepRelativeTransform);
 
 }
 
@@ -24,6 +24,12 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
+	if (GetAttachParentActor()) {
+		UE_LOG(LogTemp, Warning, TEXT("NOT NULL: %s"), *GetAttachParentActor()->GetName());
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("NULL"));
+	}
 	
 }
 
